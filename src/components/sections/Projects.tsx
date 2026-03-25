@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { projectsContent } from "@/lib/site";
+import { publicUrl } from "@/lib/publicUrl";
 import { Section } from "@/components/layout/Section";
 
 const viewport = { once: false, margin: "-14% 0px -10% 0px" } as const;
@@ -36,7 +37,7 @@ export function Projects() {
                 <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[#070a09] ring-1 ring-white/10 transition duration-500 group-hover:ring-[rgb(82_242_92/0.35)]">
                   {imageSrc ? (
                     <img
-                      src={imageSrc}
+                      src={publicUrl(imageSrc)}
                       alt={`Vista previa: ${p.title}`}
                       className="absolute inset-0 h-full w-full object-contain object-center p-3 sm:p-4"
                       loading="lazy"

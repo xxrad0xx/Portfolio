@@ -165,6 +165,7 @@ type HeaderProps = {
 export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = () => setDrawerOpen(false);
+  const closeSidebar = () => onSidebarOpenChange(false);
 
   return (
     <>
@@ -234,11 +235,16 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
         </button>
 
         <div className="flex min-h-0 flex-1 flex-col pr-2 pt-2">
-          <BrandBlock />
+          <BrandBlock onNavigate={closeSidebar} />
 
           <nav className="flex flex-col gap-1" aria-label="Principal">
             {navItems.map((item, i) => (
-              <NavLinkRow key={item.href} item={item} index={i} />
+              <NavLinkRow
+                key={item.href}
+                item={item}
+                index={i}
+                onNavigate={closeSidebar}
+              />
             ))}
           </nav>
 

@@ -12,7 +12,7 @@ import { Projects } from "@/components/sections/Projects";
 import { Technologies } from "@/components/sections/Technologies";
 
 function Landing() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <>
