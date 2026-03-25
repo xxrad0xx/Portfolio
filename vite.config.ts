@@ -7,14 +7,15 @@ import tailwindcss from "@tailwindcss/vite";
 const GH_PAGES_BASE = "/Portafolio/";
 
 /**
- * Base por defecto para Vercel/netlify/local build.
- * Para GitHub Pages puedes usar:
- * - VITE_BASE_PATH=/Portafolio/, o
- * - GITHUB_PAGES=true
+ * Base de la app. En Vercel (`VERCEL=1`) siempre `/` aunque existan otras env
+ * por error (p. ej. `GITHUB_PAGES`), para que JS/CSS no fallen.
+ * Para GitHub Pages en otro CI: `VITE_BASE_PATH=/Portafolio/` o `GITHUB_PAGES=true`.
  */
 const base =
-  process.env.VITE_BASE_PATH ??
-  (process.env.GITHUB_PAGES === "true" ? GH_PAGES_BASE : "/");
+  process.env.VERCEL === "1"
+    ? "/"
+    : process.env.VITE_BASE_PATH ??
+      (process.env.GITHUB_PAGES === "true" ? GH_PAGES_BASE : "/");
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
