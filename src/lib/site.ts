@@ -9,16 +9,16 @@ export const navItems: NavItem[] = [
   { label: "Contacto", href: "#contacto" },
 ];
 
-export const SITE_BRAND_SECOND_LINE = "UX Developer";
+export const SITE_BRAND_SECOND_LINE = "Application Analyst (UX/UI)";
 
 export const site = {
   name: `Raul Ortiz ${SITE_BRAND_SECOND_LINE}`,
   /** Línea bajo el título del hero (tres ideas, separadas por ·). */
-  role: "UX como base · UI con criterio · Sistemas que sí funcionan",
+  role: "Application Analyst · UX/UI · De la incidencia al cambio",
   /** Párrafos intro del hero (debajo del rol). */
   heroBody: [
-    "No me enfoco solo en cómo se ve una interfaz, sino en cómo se usa, cómo responde y cómo escala.",
-    "Trabajo conectando diseño y desarrollo para construir productos claros, funcionales y pensados para el mundo real.",
+    "Priorizo aplicaciones estables y claras para el usuario: triage, documentación de requerimientos y mejoras que se adoptan en el día a día.",
+    "Conecto negocio, soporte y desarrollo para cerrar incidencias, validar cambios y dejar herramientas más usables y mantenibles.",
   ],
   email: "xrad0x@outlook.com",
   phone: "+593 961 680 029",
@@ -38,11 +38,11 @@ export const site = {
 } as const;
 
 export const aboutContent = {
-  headline: "Código limpio, decisiones de diseño claras.",
-  lead: `Tengo experiencia construyendo soluciones reales desde cero, combinando lógica de desarrollo con diseño de interfaces enfocadas en el usuario.`,
+  headline: "Análisis, soporte y producto digital con mano en el código.",
+  lead: `Combino rol de analista/soporte a aplicaciones con UX/UI y desarrollo: entiendo el problema, lo traduzco en requerimientos y lo acompaño hasta que funciona en producción.`,
   paragraphs: [
-    `Actualmente trabajo como analista en sistemas, donde participo en procesos técnicos y soporte a sistemas institucionales. Además, he desarrollado proyectos propios como plataformas SaaS y demos funcionales, lo que me ha permitido entender cómo llevar una idea desde concepto hasta implementación.`,
-    `Me enfoco en diseñar interfaces intuitivas, reducir fricción en la experiencia del usuario y construir productos que sean claros, mantenibles y escalables.`,
+    `En sistemas institucionales participo en soporte (Tier 1), seguimiento de incidencias, levantamiento de requerimientos y mejora de flujos. En paralelo, proyectos propios (SaaS, demos) me dieron visión de producto de punta a punta.`,
+    `Me interesa que las herramientas sean adoptadas de verdad: menos fricción para el usuario, mejor trazabilidad para el equipo y cambios que el negocio pueda sostener.`,
   ],
   interestsTitle: "Intereses / exploración",
   interests: [
@@ -59,10 +59,10 @@ export const experienceTimeline = [
     org: "Unidad Educativa Atenas",
     current: true,
     bullets: [
-      "Soporte y gestión de sistemas institucionales",
-      "Resolución de problemas técnicos y mantenimiento de infraestructura digital",
-      "Apoyo en procesos tecnológicos internos",
-      "Participación en mejora de flujos digitales dentro de la institución",
+      "Soporte a usuarios y gestión de sistemas institucionales (Tier 1)",
+      "Triage, resolución y escalamiento de incidencias; seguimiento hasta cierre",
+      "Levantamiento de requerimientos y mejora de flujos digitales",
+      "Documentación de cambios para continuidad operativa",
     ],
   },
   {
@@ -71,10 +71,10 @@ export const experienceTimeline = [
     org: "Proyectos independientes",
     current: true,
     bullets: [
-      "Diseño UX, prototipado y experiencia de usuario para productos digitales",
-      "Desarrollo full stack: interfaces, lógica de negocio y despliegue",
-      "Más de 3 años llevando ideas desde el concepto hasta producción",
-      "Colaboración con clientes y proyectos bajo demanda, con foco en claridad y rendimiento",
+      "Diseño UX/UI (Figma), prototipado y handoff para productos digitales",
+      "Implementación y soporte de aplicaciones web: interfaces, APIs y despliegues",
+      "Debugging, mejora continua basada en feedback y validación de requerimientos",
+      "Colaboración con clientes/stakeholders con foco en claridad y resultados",
     ],
   },
   {
@@ -83,9 +83,9 @@ export const experienceTimeline = [
     org: "Unidad Educativa Atenas",
     current: false,
     bullets: [
-      "Apoyo en tareas técnicas y mantenimiento de sistemas",
+      "Soporte operativo, mantenimiento de sistemas y atención de incidencias",
       "Diagnóstico y solución de incidencias básicas",
-      "Introducción al trabajo con sistemas reales en entorno institucional",
+      "Registro de requerimientos y buenas prácticas de soporte",
     ],
   },
   {
@@ -107,11 +107,11 @@ export const projectsContent = [
     subtitle: "Demo — Sistema académico",
     desc: "Demo funcional desarrollado en equipo para entorno educativo.",
     highlights: [
-      "Diseño de interfaz y experiencia de usuario",
-      "Implementación de funcionalidades clave",
+      "Diseño de interfaz y flujos (operación/soporte)",
+      "Implementación de funcionalidades clave y validaciones",
       "Trabajo colaborativo en desarrollo de producto",
     ],
-    tags: ["Demo", "Equipo", "Educación"],
+    tags: ["Soporte", "Flujos", "Equipo", "Educación"],
     image: "/image/atenas.png",
     demoUrl: "https://atenas-demo-next-js.vercel.app/",
   },
@@ -122,10 +122,10 @@ export const projectsContent = [
     highlights: [
       "Diseño de flujos de usuario para compra de tickets",
       "Estructuración de sistema completo (roles, rutas, asientos, ventas)",
-      "Enfoque en experiencia del usuario y lógica de negocio",
+      "Enfoque en experiencia del usuario, trazabilidad y lógica de negocio",
       "Desarrollo de interfaz y arquitectura del sistema",
     ],
-    tags: ["SaaS", "UX", "Producto"],
+    tags: ["Producto", "Datos", "Roles", "SaaS"],
     image: "/image/ruta593.png",
   },
   {
@@ -134,10 +134,10 @@ export const projectsContent = [
     desc: "Sistema de gestión médica con enfoque moderno y funcionalidades avanzadas.",
     highlights: [
       "Rediseño de experiencia de usuario en sistemas médicos tradicionales",
-      "Enfoque en eficiencia, claridad y escalabilidad",
+      "Enfoque en eficiencia, claridad, control de datos y escalabilidad",
       "Integración de nuevas funcionalidades centradas en el usuario",
     ],
-    tags: ["UX", "Salud", "WIP"],
+    tags: ["Salud", "Flujos", "Datos", "WIP"],
     image: "/image/gestimed.png",
   },
 ] as const;
@@ -148,8 +148,14 @@ export const technologiesList = [
   "React",
   "Angular",
   "TypeScript",
+  "JavaScript",
+  "HTML/CSS",
   "Node.js",
+  "SQL (básico/intermedio)",
   "MongoDB",
+  "REST APIs",
+  "UAT / testing funcional",
+  "Jira (seguimiento)",
   "Tailwind CSS",
   "Framer Motion",
 ] as const;

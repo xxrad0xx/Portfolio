@@ -16,17 +16,17 @@ const fadeUp = {
 
 const titleWords: { text: string; color: string; shadow: string }[] = [
   {
-    text: "Diseño",
+    text: "Soporte",
     color: "var(--color-vintage-green)",
     shadow: "0 0 28px rgb(82 242 92 / 0.45)",
   },
   {
-    text: "y",
+    text: "a",
     color: "var(--color-vintage-cyan)",
     shadow: "0 0 24px rgb(60 252 236 / 0.4)",
   },
   {
-    text: "código",
+    text: "aplicaciones",
     color: "var(--color-vintage-magenta)",
     shadow: "0 0 26px rgb(232 120 255 / 0.4)",
   },
@@ -36,9 +36,14 @@ const titleWords: { text: string; color: string; shadow: string }[] = [
     shadow: "0 0 24px rgb(255 192 56 / 0.4)",
   },
   {
-    text: "intención.",
+    text: "criterio",
     color: "var(--color-vintage-coral)",
     shadow: "0 0 22px rgb(255 138 108 / 0.38)",
+  },
+  {
+    text: "real.",
+    color: "var(--color-vintage-green)",
+    shadow: "0 0 26px rgb(82 242 92 / 0.4)",
   },
 ];
 
@@ -297,10 +302,10 @@ export function Hero() {
                       "0 0 32px rgb(232 120 255 / 0.35), 0 0 24px rgb(60 252 236 / 0.25)",
                   }}
                 >
-                  Diseñador UX
+                  Analista de aplicaciones (UX/UI)
                 </span>
                 <span className="ml-2 text-base font-medium text-[var(--color-muted)] sm:text-lg">
-                  — interfaces con intención
+                  — del requerimiento a la operación
                 </span>
               </p>
             </motion.div>
@@ -309,17 +314,17 @@ export function Hero() {
               {[
                 {
                   k: "Rol",
-                  v: "Analista en sistemas + producto",
+                  v: ["Soporte a aplicaciones", "Análisis y seguimiento"],
                   c: "var(--color-vintage-green)",
                 },
                 {
                   k: "Stack",
-                  v: "Figma · React · TypeScript · Node",
+                  v: ["Figma · React · TypeScript", "Node · SQL"],
                   c: "var(--color-vintage-cyan)",
                 },
                 {
                   k: "Enfoque",
-                  v: "UX, UI y sistemas reales",
+                  v: ["Incidencias y cambios", "UX en producción", "Interés: Workday / HR"],
                   c: "var(--color-vintage-amber)",
                 },
               ].map((row, idx) => (
@@ -339,9 +344,13 @@ export function Hero() {
                   >
                     {row.k}
                   </p>
-                  <p className="mt-2 font-console text-sm font-medium text-slate-100">
-                    {row.v}
-                  </p>
+                  <div className="mt-2 space-y-1.5 font-console text-sm font-medium text-slate-100">
+                    {row.v.map((line) => (
+                      <p key={line} className="leading-snug">
+                        {line}
+                      </p>
+                    ))}
+                  </div>
                 </motion.div>
               ))}
             </div>
