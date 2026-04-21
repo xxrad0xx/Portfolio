@@ -1,26 +1,29 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { projectsContent } from "@/lib/site";
+import { getContent } from "@/lib/site";
 import { publicUrl } from "@/lib/publicUrl";
 import { Section } from "@/components/layout/Section";
+import { useI18n } from "@/lib/i18n";
 
 const viewport = { once: false, margin: "-14% 0px -10% 0px" } as const;
 
 export function Projects() {
   const reduce = useReducedMotion();
+  const { locale } = useI18n();
+  const { projectsContent, ui } = getContent(locale);
 
   return (
     <Section id="proyectos">
       <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
         <div>
           <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
-            Proyectos
+            {ui.projectsKicker}
           </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-            Productos y demos
+            {ui.projectsTitle}
           </h2>
         </div>
         <p className="max-w-sm text-sm text-[var(--color-muted)]">
-          Selección de trabajo con foco en UX, implementación y lógica de negocio.
+          {ui.projectsLead}
         </p>
       </div>
 
@@ -87,7 +90,7 @@ export function Projects() {
                 </ul>
                 {demoUrl ? (
                   <p className="mt-4 font-console text-xs text-[var(--color-vintage-green)] opacity-90 transition group-hover:opacity-100">
-                    Ver demo en vivo →
+                    {ui.liveDemo}
                   </p>
                 ) : null}
               </div>

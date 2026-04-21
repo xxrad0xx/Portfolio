@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { site } from "@/lib/site";
+import { getContent } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
+import { useI18n } from "@/lib/i18n";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -13,39 +14,6 @@ const fadeUp = {
     transition: { duration: 0.5, ease },
   },
 };
-
-const titleWords: { text: string; color: string; shadow: string }[] = [
-  {
-    text: "Soporte",
-    color: "var(--color-vintage-green)",
-    shadow: "0 0 28px rgb(82 242 92 / 0.45)",
-  },
-  {
-    text: "a",
-    color: "var(--color-vintage-cyan)",
-    shadow: "0 0 24px rgb(60 252 236 / 0.4)",
-  },
-  {
-    text: "aplicaciones",
-    color: "var(--color-vintage-magenta)",
-    shadow: "0 0 26px rgb(232 120 255 / 0.4)",
-  },
-  {
-    text: "con",
-    color: "var(--color-vintage-amber)",
-    shadow: "0 0 24px rgb(255 192 56 / 0.4)",
-  },
-  {
-    text: "criterio",
-    color: "var(--color-vintage-coral)",
-    shadow: "0 0 22px rgb(255 138 108 / 0.38)",
-  },
-  {
-    text: "real.",
-    color: "var(--color-vintage-green)",
-    shadow: "0 0 26px rgb(82 242 92 / 0.4)",
-  },
-];
 
 const rolePartColors = [
   "var(--color-vintage-cyan)",
@@ -61,6 +29,9 @@ const rolePartShadows = [
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const { locale } = useI18n();
+  const { site, ui } = getContent(locale);
+  const titleWords = ui.hero.titleWords;
   const dur = reduce ? 0 : 0.46;
   const lineGap = reduce ? 0 : 0.12;
   const wordStagger = reduce ? 0 : 0.048;
@@ -139,7 +110,7 @@ export function Hero() {
                 run portfolio.sh
               </span>
               <span className="hidden text-[var(--color-vintage-magenta)] sm:inline">
-                — listo
+              {ui.hero.ready}
               </span>
             </motion.p>
 
@@ -245,7 +216,7 @@ export function Hero() {
                 whileHover={reduce ? undefined : { scale: 1.02 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
               >
-                [ Ver trabajo ]
+                {ui.hero.ctaWork}
               </motion.a>
               <motion.a
                 href="#contacto"
@@ -253,7 +224,7 @@ export function Hero() {
                 whileHover={reduce ? undefined : { scale: 1.02 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
               >
-                {"{ hablemos }"}
+                {ui.hero.ctaTalk}
               </motion.a>
             </motion.div>
           </motion.div>
@@ -335,7 +306,7 @@ export function Hero() {
                 }}
               />
               <p className="relative font-console text-[10px] font-medium uppercase tracking-[0.35em] text-[var(--color-vintage-cyan)]">
-                Perfil
+                {ui.hero.profileKicker}
               </p>
               <p className="relative mt-2 font-console text-xl font-semibold tracking-tight text-white sm:text-2xl">
                 <span
@@ -345,32 +316,16 @@ export function Hero() {
                       "0 0 32px rgb(232 120 255 / 0.35), 0 0 24px rgb(60 252 236 / 0.25)",
                   }}
                 >
-                  Analista de aplicaciones (UX/UI)
+                  {ui.hero.profileTitle}
                 </span>
                 <span className="ml-2 text-base font-medium text-[var(--color-muted)] sm:text-lg">
-                  — del requerimiento a la operación
+                  {ui.hero.profileSubtitle}
                 </span>
               </p>
             </motion.div>
 
             <div className="grid gap-6 sm:grid-cols-3">
-              {[
-                {
-                  k: "Rol",
-                  v: ["Soporte a aplicaciones", "Análisis y seguimiento"],
-                  c: "var(--color-vintage-green)",
-                },
-                {
-                  k: "Stack",
-                  v: ["Figma · React · TypeScript", "Node · SQL"],
-                  c: "var(--color-vintage-cyan)",
-                },
-                {
-                  k: "Enfoque",
-                  v: ["Incidencias y cambios", "UX en producción", "Interés: Workday / HR"],
-                  c: "var(--color-vintage-amber)",
-                },
-              ].map((row, idx) => (
+              {ui.hero.metrics.map((row, idx) => (
                 <motion.div
                   key={row.k}
                   initial={reduce ? false : { opacity: 0, y: 10 }}

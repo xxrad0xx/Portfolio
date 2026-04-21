@@ -2,10 +2,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   getNavTypewriterCommand,
-  navItems,
   SITE_BRAND_SECOND_LINE,
-  site,
+  getContent,
 } from "@/lib/site";
+import { useI18n } from "@/lib/i18n";
 
 const CMD_COLOR_BY_INDEX: string[] = [
   "text-[var(--color-vintage-cyan)]",
@@ -19,17 +19,13 @@ const CMD_COLOR_BY_INDEX: string[] = [
 const TYPE_MS = 36;
 
 const brandSuffix = ` ${SITE_BRAND_SECOND_LINE}`;
-const brandFirst = site.name.endsWith(brandSuffix)
-  ? site.name.slice(0, -brandSuffix.length)
-  : site.name;
-const brandSecond = site.name.endsWith(brandSuffix) ? SITE_BRAND_SECOND_LINE : "";
 
 function NavLinkRow({
   item,
   index,
   onNavigate,
 }: {
-  item: (typeof navItems)[number];
+  item: { label: string; href: string };
   index: number;
   onNavigate?: () => void;
 }) {
@@ -136,6 +132,16 @@ function BrandBlock({
   onNavigate?: () => void;
   className?: string;
 }) {
+  const { locale } = useI18n();
+  const content = getContent(locale);
+  const site = content.site;
+  const brandFirst = site.name.endsWith(brandSuffix)
+    ? site.name.slice(0, -brandSuffix.length)
+    : site.name;
+  const brandSecond = site.name.endsWith(brandSuffix)
+    ? SITE_BRAND_SECOND_LINE
+    : "";
+
   return (
     <a
       href="#hero"
@@ -157,12 +163,69 @@ function BrandBlock({
   );
 }
 
+function LanguageToggle({
+  className = "",
+}: {
+  className?: string;
+}) {
+  const { locale, toggleLocale } = useI18n();
+  const inactiveClass = "text-[var(--color-muted)] opacity-75";
+  const activePill =
+    "rounded-md bg-white/[0.06] px-1.5 py-1 text-[var(--color-vintage-cyan)]";
+
+  return (
+    <button
+      type="button"
+      onClick={toggleLocale}
+      className={`relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-lg border border-[var(--color-border)] bg-black/20 px-3 py-2 font-console text-[10px] font-semibold uppercase tracking-[0.28em] text-[var(--color-muted)] shadow-[0_0_22px_rgb(60_252_236/0.08)] transition hover:border-white/20 hover:text-white hover:shadow-[0_0_32px_rgb(60_252_236/0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-vintage-cyan)]/40 ${className}`}
+      aria-label={locale === "es" ? "Cambiar a inglés" : "Switch to Spanish"}
+    >
+      <span
+        className={locale === "es" ? activePill : inactiveClass}
+        style={
+          locale === "es"
+            ? {
+                textShadow:
+                  "0 0 18px rgb(60 252 236 / 0.55), 0 0 34px rgb(60 252 236 / 0.22)",
+                boxShadow:
+                  "0 0 22px rgb(60 252 236 / 0.12), inset 0 1px 0 rgb(255 255 255 / 0.08)",
+              }
+            : undefined
+        }
+      >
+        ES
+      </span>
+      <span className="opacity-60">/</span>
+      <span
+        className={locale === "en" ? activePill : inactiveClass}
+        style={
+          locale === "en"
+            ? {
+                textShadow:
+                  "0 0 18px rgb(60 252 236 / 0.55), 0 0 34px rgb(60 252 236 / 0.22)",
+                boxShadow:
+                  "0 0 22px rgb(60 252 236 / 0.12), inset 0 1px 0 rgb(255 255 255 / 0.08)",
+              }
+            : undefined
+        }
+      >
+        EN
+      </span>
+    </button>
+  );
+}
+
 type HeaderProps = {
   sidebarOpen: boolean;
   onSidebarOpenChange: (open: boolean) => void;
 };
 
 export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
+  const { locale } = useI18n();
+  const content = getContent(locale);
+  const navItems = content.navItems;
+  const ui = content.ui;
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeDrawer = () => setDrawerOpen(false);
   const closeSidebar = () => onSidebarOpenChange(false);
@@ -179,12 +242,18 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
         <span className="text-[var(--color-vintage-green)]">
           <span className="nav-prompt-gt inline-block font-semibold">{">"}</span>
         </span>
-        menú
+        {ui.menu}
       </button>
+
+      {!sidebarOpen && !drawerOpen ? (
+        <div className="fixed top-4 right-4 z-[60]">
+          <LanguageToggle />
+        </div>
+      ) : null}
 
       <button
         type="button"
-        aria-label="Abrir menú lateral"
+        aria-label={ui.openSidebarAria}
         onClick={() => onSidebarOpenChange(true)}
         className={`fixed top-24 left-3 z-[55] hidden h-10 items-center gap-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface-elevated)]/90 px-3 py-2 font-console text-xs font-medium text-[var(--color-vintage-cyan)] shadow-md backdrop-blur-md transition hover:bg-white/5 md:flex ${
           sidebarOpen ? "pointer-events-none opacity-0" : "opacity-100"
@@ -193,7 +262,7 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
         <span className="text-[var(--color-vintage-green)]">
           <span className="nav-prompt-gt inline-block font-semibold">{">"}</span>
         </span>
-        menú
+        {ui.menu}
       </button>
 
       <AnimatePresence>
@@ -205,7 +274,7 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            aria-label="Cerrar menú lateral"
+            aria-label={ui.closeSidebarAria}
             onClick={() => onSidebarOpenChange(false)}
             className="fixed inset-0 z-[45] hidden cursor-pointer bg-black/60 backdrop-blur-sm md:block"
           />
@@ -214,7 +283,7 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
 
       <motion.aside
         id="side-nav"
-        aria-label="Navegación"
+        aria-label={locale === "es" ? "Navegación" : "Navigation"}
         aria-hidden={!sidebarOpen}
         initial={false}
         animate={{
@@ -227,7 +296,7 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
       >
         <button
           type="button"
-          aria-label="Ocultar menú lateral"
+          aria-label={ui.hideSidebarAria}
           onClick={() => onSidebarOpenChange(false)}
           className="absolute top-7 right-3 flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--color-border)]/60 bg-black/20 font-console text-xs text-[var(--color-muted)] transition hover:border-[var(--color-border)] hover:text-white"
         >
@@ -248,8 +317,11 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
             ))}
           </nav>
 
-          <div className="mt-auto pt-8 font-console text-[10px] uppercase tracking-wider text-[var(--color-muted)]">
-            {versionLabel}
+          <div className="mt-auto flex flex-col gap-4 pt-8">
+            <LanguageToggle />
+            <div className="font-console text-[10px] uppercase tracking-wider text-[var(--color-muted)]">
+              {versionLabel}
+            </div>
           </div>
         </div>
       </motion.aside>
@@ -263,7 +335,7 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="fixed inset-0 z-[55] bg-black/65 backdrop-blur-sm md:hidden"
-              aria-label="Cerrar menú"
+              aria-label={ui.closeDrawerAria}
               onClick={closeDrawer}
             />
             <motion.aside
@@ -284,8 +356,11 @@ export function Header({ sidebarOpen, onSidebarOpenChange }: HeaderProps) {
                   />
                 ))}
               </nav>
-              <div className="mt-auto pt-8 font-console text-[10px] uppercase tracking-wider text-[var(--color-muted)]">
-                {versionLabel}
+              <div className="mt-auto flex flex-col gap-4 pt-8">
+                <LanguageToggle />
+                <div className="font-console text-[10px] uppercase tracking-wider text-[var(--color-muted)]">
+                  {versionLabel}
+                </div>
               </div>
             </motion.aside>
           </>

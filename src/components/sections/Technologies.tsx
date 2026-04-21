@@ -1,13 +1,16 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useCallback, useState } from "react";
-import { technologiesList } from "@/lib/site";
+import { getContent } from "@/lib/site";
 import { Section } from "@/components/layout/Section";
 import { TechBreakoutOverlay } from "@/components/sections/TechBreakoutOverlay";
+import { useI18n } from "@/lib/i18n";
 
 const viewport = { once: false, margin: "-10% 0px -10% 0px" } as const;
 
 export function Technologies() {
   const reduce = useReducedMotion();
+  const { locale } = useI18n();
+  const { technologiesList, ui } = getContent(locale);
   const [stageEl, setStageEl] = useState<HTMLDivElement | null>(null);
   const stageRef = useCallback((el: HTMLDivElement | null) => {
     setStageEl(el);
@@ -17,13 +20,13 @@ export function Technologies() {
     <Section id="tecnologias" className="border-y border-[var(--color-border)]">
       <div className="text-center">
         <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-accent)]">
-          Tecnologías
+          {ui.technologiesKicker}
         </p>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          Herramientas y stack
+          {ui.technologiesTitle}
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-[var(--color-muted)]">
-          Herramientas que uso en soporte, análisis y construcción de interfaces: de datos y APIs al detalle visual.
+          {ui.technologiesLead}
         </p>
       </div>
 

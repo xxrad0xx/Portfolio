@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { site } from "@/lib/site";
+import { getContent } from "@/lib/site";
 import { Section } from "@/components/layout/Section";
+import { useI18n } from "@/lib/i18n";
 
 const viewport = { once: false, margin: "-10% 0px -8% 0px" } as const;
 
@@ -8,6 +9,8 @@ const cardEase = [0.22, 1, 0.36, 1] as const;
 
 export function Contact() {
   const reduce = useReducedMotion();
+  const { locale } = useI18n();
+  const { site, ui } = getContent(locale);
 
   const links = [
     {
@@ -15,15 +18,15 @@ export function Contact() {
       href: `mailto:${site.email}`,
       label: "Email",
       value: site.email,
-      hint: "Abrir cliente de correo →",
+      hint: ui.contactHints.email,
       accent: "var(--color-vintage-green)",
     },
     {
       key: "tel",
       href: `tel:${site.phoneTel}`,
-      label: "Teléfono",
+      label: locale === "es" ? "Teléfono" : "Phone",
       value: site.phone,
-      hint: "Llamar →",
+      hint: ui.contactHints.tel,
       accent: "var(--color-vintage-cyan)",
     },
     {
@@ -32,7 +35,7 @@ export function Contact() {
       external: true,
       label: "GitHub",
       value: "xxrad0xx",
-      hint: "Ver repositorios →",
+      hint: ui.contactHints.github,
       accent: "var(--color-vintage-amber)",
     },
     {
@@ -41,8 +44,7 @@ export function Contact() {
       external: true,
       label: "Discord",
       value: site.discord.handle,
-      hint:
-        "Abre Discord: inicia sesión y usa Amigos → Añadir amigo, o envía un mensaje directo con este usuario.",
+      hint: ui.contactHints.discord,
       accent: "#a5b4fc",
       borderHover: "hover:border-[rgb(88_101_242/0.45)]",
     },
@@ -78,14 +80,13 @@ export function Contact() {
             transition={{ duration: 0.5, delay: reduce ? 0 : 0.06, ease: cardEase }}
           >
             <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
-              Contacto
+              {ui.contactKicker}
             </p>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              ¿Hablamos?
+              {ui.contactTitle}
             </h2>
             <p className="mt-4 max-w-lg text-[var(--color-muted)] leading-relaxed">
-              Escríbeme o llámame para colaboraciones, propuestas o conversaciones
-              técnicas. Siempre respondo en milisegundos.
+              {ui.contactLead}
             </p>
 
             <motion.div
@@ -96,7 +97,7 @@ export function Contact() {
               className="mt-10 rounded-2xl border border-[var(--color-border)] bg-black/25 p-5 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)]"
             >
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-muted)]">
-                Idiomas
+                {ui.languagesTitle}
               </p>
               <ul className="mt-4 space-y-3 text-sm text-[var(--color-muted)]">
                 {site.languages.map((lang, idx) => (

@@ -1,11 +1,14 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { aboutContent } from "@/lib/site";
+import { getContent } from "@/lib/site";
+import { useI18n } from "@/lib/i18n";
 import { Section } from "@/components/layout/Section";
 
 const viewport = { once: false, margin: "-12% 0px -8% 0px" } as const;
 
 export function About() {
   const reduce = useReducedMotion();
+  const { locale } = useI18n();
+  const { aboutContent, ui } = getContent(locale);
 
   return (
     <Section id="sobre-mi">
@@ -23,7 +26,7 @@ export function About() {
           transition={{ duration: 0.5, delay: reduce ? 0 : 0.05 }}
         >
           <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-accent-soft)]">
-            Sobre mí
+            {ui.aboutKicker}
           </p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
             {aboutContent.headline}

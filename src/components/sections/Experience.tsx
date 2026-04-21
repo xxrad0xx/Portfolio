@@ -1,20 +1,23 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { experienceTimeline } from "@/lib/site";
+import { getContent } from "@/lib/site";
 import { Section } from "@/components/layout/Section";
+import { useI18n } from "@/lib/i18n";
 
 const viewport = { once: false, margin: "-12% 0px -10% 0px" } as const;
 
 export function Experience() {
   const reduce = useReducedMotion();
+  const { locale } = useI18n();
+  const { experienceTimeline, ui } = getContent(locale);
 
   return (
     <Section id="trayectoria" className="border-t border-[var(--color-border)]">
       <div>
         <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-[var(--color-accent)]">
-          Experiencia
+          {ui.experienceKicker}
         </p>
         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          Trayectoria profesional
+          {ui.experienceTitle}
         </h2>
       </div>
 
@@ -92,7 +95,7 @@ export function Experience() {
                       {item.role}
                       {item.current ? (
                         <span className="font-mono text-[10px] font-normal uppercase tracking-wider text-[var(--color-vintage-green)]">
-                          Actualidad
+                          {ui.currentLabel}
                         </span>
                       ) : null}
                     </h3>
