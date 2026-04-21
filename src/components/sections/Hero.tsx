@@ -266,7 +266,7 @@ export function Hero() {
               duration: reduce ? 0 : 0.5,
               ease,
             }}
-            className="mx-auto w-full max-w-[260px] md:mx-0 md:mt-10 md:w-[260px]"
+            className="mx-auto w-full max-w-[260px] md:mx-0 md:mt-21 md:w-[260px]"
           >
             <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-black/30 p-3 shadow-[0_0_40px_rgb(60_252_236/0.08),inset_0_1px_0_rgb(255_255_255/0.06)]">
               <div
