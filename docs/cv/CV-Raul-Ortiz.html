@@ -297,70 +297,36 @@
         text-transform: uppercase;
       }
 
-      /* Impresión / PDF: fondo claro opcional (ahorra tinta) */
+      /* Impresión / PDF: mantener el look tal cual en pantalla */
       @media print {
+        @page {
+          margin: 16mm;
+        }
+
+        html,
         body {
-          background: #fff;
-          color: #1a1f1c;
-          padding: 20px;
-          max-width: 100%;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+          background: var(--bg) !important;
+          color: #e6f5ec !important;
         }
-        .scan {
-          display: none;
+
+        body {
+          padding: 28px 32px 40px;
+          max-width: 820px;
+          margin-left: auto;
+          margin-right: auto;
         }
+
+        * {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
         header,
         .card {
-          background: #f8faf9;
-          border-color: #c8ddd4;
-          box-shadow: none;
-        }
-        h1 .g1 {
-          color: #1d6b24;
-          text-shadow: none;
-        }
-        h1 .g2 {
-          color: #0d7a7a;
-        }
-        .tagline,
-        .contact,
-        .job-meta,
-        .tags,
-        footer {
-          color: #4a5c54;
-        }
-        .contact a {
-          color: #0d6b6b;
-        }
-        h2 {
-          color: #0d6b6b;
-          border-left-color: #2a9d3a;
-        }
-        p,
-        ul,
-        .lead {
-          color: #2d3834;
-        }
-        .job-title {
-          color: #111;
-        }
-        .job-org {
-          color: #0d6b6b;
-        }
-        .project .sub {
-          color: #0d6b6b;
-        }
-        .project a {
-          color: #0d6b6b;
-        }
-        .pill {
-          border-color: #2a9d3a;
-          color: #1d6b24;
-        }
-        .stack strong {
-          color: #1d6b24;
-        }
-        .headshot {
-          border-color: #c8ddd4;
+          box-shadow: 0 0 40px rgba(82, 242, 92, 0.06),
+            inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
         }
       }
     </style>
