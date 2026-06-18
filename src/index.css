@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-console: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-surface: #060807;
+  --color-surface-elevated: #0c1210;
+  --color-border: rgb(78 205 196 / 0.14);
+  --color-muted: #7d948b;
+
+  --color-accent: #3cfcec;
+  --color-accent-soft: #ffc038;
+
+  --color-vintage-green: #52f25c;
+  --color-vintage-amber: #ffc038;
+  --color-vintage-cyan: #3cfcec;
+  --color-vintage-magenta: #e878ff;
+  --color-vintage-coral: #ff8a6c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: rgb(230 245 236);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(60 252 236 / 0.28);
+  color: rgb(255 255 255);
+}
+
+@keyframes nav-prompt-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0.25;
+  }
+}
+
+.nav-prompt-gt {
+  animation: nav-prompt-blink 1.05s step-end infinite;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
