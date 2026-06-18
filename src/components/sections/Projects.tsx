@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { getContent } from "@/lib/site";
 import { publicUrl } from "@/lib/publicUrl";
 import { Section } from "@/components/layout/Section";
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@/lib/useI18n";
 
 const viewport = { once: false, margin: "-14% 0px -10% 0px" } as const;
 

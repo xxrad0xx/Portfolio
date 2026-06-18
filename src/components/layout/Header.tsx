@@ -5,7 +5,7 @@ import {
   SITE_BRAND_SECOND_LINE,
   getContent,
 } from "@/lib/site";
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@/lib/useI18n";
 
 const CMD_COLOR_BY_INDEX: string[] = [
   "text-[var(--color-vintage-cyan)]",

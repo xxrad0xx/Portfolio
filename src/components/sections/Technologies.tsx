@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { getContent } from "@/lib/site";
 import { Section } from "@/components/layout/Section";
 import { TechBreakoutOverlay } from "@/components/sections/TechBreakoutOverlay";
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@/lib/useI18n";
 
 const viewport = { once: false, margin: "-10% 0px -10% 0px" } as const;
 

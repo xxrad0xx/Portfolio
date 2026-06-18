@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { getContent } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@/lib/useI18n";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 

@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n-context";
 
 export type NavItem = { label: string; href: string };
 
@@ -283,7 +283,7 @@ const contentEs: SiteContent = {
         "Landing enfocada en conversión, claridad de producto y operación para restaurante",
       ],
       tags: ["Frontend", "UX/UI", "Landing", "Pedidos", "Responsive"],
-      image: "/image/atenas.png",
+      image: "/image/golden-burger.png",
       demoUrl: "https://golden-web-omega.vercel.app/",
     },
     {
@@ -296,7 +296,7 @@ const contentEs: SiteContent = {
         "Enfoque freelance orientado a captación de clientes y conversión",
       ],
       tags: ["Landing", "Servicios web", "UX Writing", "Conversión"],
-      image: "/image/ruta593.png",
+      image: "/image/programers-loft-studio.png",
       demoUrl: "https://programersloftstudio.vercel.app/",
     },
     {
@@ -535,7 +535,7 @@ const contentEn: SiteContent = {
         "Landing focused on conversion, product clarity, and restaurant operations",
       ],
       tags: ["Frontend", "UX/UI", "Landing", "Orders", "Responsive"],
-      image: "/image/atenas.png",
+      image: "/image/golden-burger.png",
       demoUrl: "https://golden-web-omega.vercel.app/",
     },
     {
@@ -548,7 +548,7 @@ const contentEn: SiteContent = {
         "Freelance approach focused on client acquisition and conversion",
       ],
       tags: ["Landing", "Web services", "UX Writing", "Conversion"],
-      image: "/image/ruta593.png",
+      image: "/image/programers-loft-studio.png",
       demoUrl: "https://programersloftstudio.vercel.app/",
     },
     {

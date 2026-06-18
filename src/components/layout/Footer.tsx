@@ -1,6 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { getContent } from "@/lib/site";
-import { useI18n } from "@/lib/i18n";
+import { useI18n } from "@/lib/useI18n";
 
 export function Footer() {
   const { locale } = useI18n();

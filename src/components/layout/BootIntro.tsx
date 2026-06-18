@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 type BootIntroProps = {
@@ -29,6 +29,15 @@ export function BootIntro({ onComplete }: BootIntroProps) {
   const [pressedFace, setPressedFace] = useState<number | null>(null);
 
   const currentLine = useMemo(() => bootLines[lineIndex] ?? "", [lineIndex]);
+
+  const handleStart = useCallback(() => {
+    if (!ready || launching) return;
+    setLaunching(true);
+
+    window.setTimeout(() => {
+      onComplete();
+    }, 1450);
+  }, [launching, onComplete, ready]);
 
   useEffect(() => {
     if (ready) return;
@@ -85,16 +94,7 @@ export function BootIntro({ onComplete }: BootIntroProps) {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [ready, launching]);
-
-  const handleStart = () => {
-    if (!ready || launching) return;
-    setLaunching(true);
-
-    window.setTimeout(() => {
-      onComplete();
-    }, 1450);
-  };
+  }, [ready, launching, handleStart]);
 
   /** Cuerpo tipo consola portátil: estrecho y vertical (no crece a bloque ancho en 4K). */
   const shellClass =

@@ -1,14 +1,11 @@
 import {
-  createContext,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from "react";
-
-export type Locale = "es" | "en";
+import { I18nContext, type Locale } from "@/lib/i18n-context";
 
 const STORAGE_KEY = "portfolio.locale";
 
@@ -16,14 +13,6 @@ function detectDefaultLocale(): Locale {
   if (typeof navigator === "undefined") return "es";
   return navigator.language?.toLowerCase().startsWith("es") ? "es" : "en";
 }
-
-type I18nContextValue = {
-  locale: Locale;
-  setLocale: (locale: Locale) => void;
-  toggleLocale: () => void;
-};
-
-const I18nContext = createContext<I18nContextValue | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(() => {
@@ -61,10 +50,3 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
-
-export function useI18n() {
-  const ctx = useContext(I18nContext);
-  if (!ctx) throw new Error("useI18n must be used within I18nProvider");
-  return ctx;
-}
-
