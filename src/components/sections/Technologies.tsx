@@ -32,8 +32,17 @@ export function Technologies() {
 
       <div
         ref={stageRef}
-        className="relative mt-14 min-h-[22rem] overflow-hidden rounded-3xl border border-[var(--color-border)] bg-black/10 p-6 shadow-[inset_0_1px_0_rgb(255_255_255/0.04)] sm:p-10"
+        className="framer-panel relative mt-14 min-h-[22rem] overflow-hidden rounded-3xl p-6 shadow-[0_24px_80px_rgb(0_0_0/0.32),inset_0_1px_0_rgb(255_255_255/0.04)] sm:p-10"
       >
+        <div
+          className="pointer-events-none absolute inset-0 opacity-30"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgb(60 252 236 / 0.05) 1px, transparent 1px), linear-gradient(90deg, rgb(60 252 236 / 0.04) 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+          aria-hidden
+        />
         <TechBreakoutOverlay
           disabled={!!reduce}
           container={stageEl}

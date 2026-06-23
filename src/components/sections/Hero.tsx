@@ -1,4 +1,11 @@
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+  useTransform,
+} from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import { getContent } from "@/lib/site";
 import { Container } from "@/components/ui/Container";
 import { useI18n } from "@/lib/useI18n";
@@ -27,11 +34,29 @@ const rolePartShadows = [
   "0 0 18px rgb(82 242 92 / 0.32)",
 ] as const;
 
+const typedWords = {
+  es: ["código.", "diseño.", "producto.", "experiencia."],
+  en: ["code.", "design.", "product.", "experience."],
+} as const;
+
 export function Hero() {
   const reduce = useReducedMotion();
   const { locale } = useI18n();
   const { site, ui } = getContent(locale);
+  const cursorX = useMotionValue(0);
+  const cursorY = useMotionValue(0);
+  const smoothX = useSpring(cursorX, { stiffness: 80, damping: 22, mass: 0.6 });
+  const smoothY = useSpring(cursorY, { stiffness: 80, damping: 22, mass: 0.6 });
+  const photoMoveX = useTransform(smoothX, [-0.5, 0.5], [-12, 12]);
+  const photoMoveY = useTransform(smoothY, [-0.5, 0.5], [-10, 10]);
+  const photoRotateY = useTransform(smoothX, [-0.5, 0.5], [-5.5, 5.5]);
+  const photoRotateX = useTransform(smoothY, [-0.5, 0.5], [4.5, -4.5]);
   const titleWords = ui.hero.titleWords;
+  const cyclingWords = useMemo(
+    () => typedWords[locale === "en" ? "en" : "es"],
+    [locale],
+  );
+  const [typedWord, setTypedWord] = useState<string>(cyclingWords[0]);
   const dur = reduce ? 0 : 0.46;
   const lineGap = reduce ? 0 : 0.12;
   const wordStagger = reduce ? 0 : 0.048;
@@ -45,10 +70,68 @@ export function Hero() {
     },
   };
 
+  useEffect(() => {
+    if (reduce) {
+      setTypedWord(cyclingWords[0]);
+      return;
+    }
+
+    let wordIndex = 0;
+    let charIndex = cyclingWords[wordIndex].length;
+    let deleting = true;
+    let pause = 0;
+
+    const timer = window.setInterval(() => {
+      const current = cyclingWords[wordIndex];
+
+      if (pause > 0) {
+        pause -= 1;
+        return;
+      }
+
+      if (deleting) {
+        charIndex -= 1;
+        setTypedWord(current.slice(0, Math.max(0, charIndex)));
+
+        if (charIndex <= 0) {
+          deleting = false;
+          wordIndex = (wordIndex + 1) % cyclingWords.length;
+          pause = 2;
+        }
+        return;
+      }
+
+      const next = cyclingWords[wordIndex];
+      charIndex += 1;
+      setTypedWord(next.slice(0, charIndex));
+
+      if (charIndex >= next.length) {
+        deleting = true;
+        pause = 8;
+      }
+    }, 74);
+
+    return () => window.clearInterval(timer);
+  }, [cyclingWords, reduce]);
+
+  useEffect(() => {
+    if (reduce) return;
+
+    const updateCursor = (event: PointerEvent) => {
+      const width = window.innerWidth || 1;
+      const height = window.innerHeight || 1;
+      cursorX.set(event.clientX / width - 0.5);
+      cursorY.set(event.clientY / height - 0.5);
+    };
+
+    window.addEventListener("pointermove", updateCursor, { passive: true });
+    return () => window.removeEventListener("pointermove", updateCursor);
+  }, [cursorX, cursorY, reduce]);
+
   return (
     <section
       id="hero"
-      className="relative flex min-h-[100dvh] items-center overflow-hidden pt-16 md:pt-0"
+      className="relative flex min-h-[100dvh] items-center overflow-hidden pt-24 md:pt-0"
     >
       <motion.div
         className="pointer-events-none absolute inset-0 opacity-[0.14] mix-blend-overlay"
@@ -93,7 +176,7 @@ export function Hero() {
       />
 
       <Container className="relative z-[1]">
-        <div className="grid items-start gap-10 md:grid-cols-[1fr_auto] md:gap-12">
+        <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.95fr)] md:gap-12 lg:gap-16">
           <motion.div
             className="max-w-4xl font-console"
             initial="hidden"
@@ -115,7 +198,7 @@ export function Hero() {
             </motion.p>
 
             <motion.h1
-              className="text-[1.65rem] font-semibold leading-[1.2] tracking-tight sm:text-4xl sm:leading-[1.15] lg:text-5xl lg:leading-[1.1]"
+              className="text-[2.1rem] font-semibold leading-[1.05] tracking-tight sm:text-5xl sm:leading-[1.02] lg:text-7xl lg:leading-[0.98]"
               variants={{
                 hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 14 },
                 visible: {
@@ -131,7 +214,7 @@ export function Hero() {
               }}
             >
               <motion.span
-                className="block"
+                className="block max-w-[15ch]"
                 variants={{
                   hidden: {},
                   visible: {
@@ -142,7 +225,7 @@ export function Hero() {
                   },
                 }}
               >
-                {titleWords.map((w, i) => (
+                {titleWords.slice(0, -1).map((w, i) => (
                   <motion.span key={w.text} variants={fadeWord} className="inline">
                     {i > 0 ? " " : null}
                     <span
@@ -155,10 +238,28 @@ export function Hero() {
                     </span>
                   </motion.span>
                 ))}
+                <motion.span
+                  variants={fadeWord}
+                  className="mt-2 grid min-h-[1.05em] min-w-[15ch] grid-cols-1 grid-rows-1 whitespace-nowrap"
+                  style={{
+                    color: titleWords.at(-1)?.color,
+                    textShadow: titleWords.at(-1)?.shadow,
+                  }}
+                >
+                  <span className="invisible col-start-1 row-start-1 whitespace-nowrap">
+                    experiencia._
+                  </span>
+                  <span className="col-start-1 row-start-1 whitespace-nowrap">
+                    {typedWord}
+                    <span className="ml-1 inline-block text-[var(--color-vintage-cyan)]">
+                      _
+                    </span>
+                  </span>
+                </motion.span>
               </motion.span>
 
               <motion.span
-                className="mt-4 block text-base font-medium sm:text-xl lg:text-2xl"
+                className="mt-6 block max-w-3xl text-base font-medium sm:text-xl lg:text-2xl"
                 variants={{
                   hidden: {},
                   visible: {
@@ -212,7 +313,7 @@ export function Hero() {
             >
               <motion.a
                 href="#proyectos"
-                className="inline-flex items-center justify-center rounded-lg border border-[var(--color-vintage-green)] bg-[rgb(82_242_92/0.08)] px-5 py-3 font-console text-sm font-semibold text-[var(--color-vintage-green)] shadow-[0_0_24px_rgb(82_242_92/0.2)] transition hover:bg-[rgb(82_242_92/0.14)] hover:shadow-[0_0_32px_rgb(82_242_92/0.28)]"
+                className="kinetic-link inline-flex min-h-12 items-center justify-center rounded-lg border border-[var(--color-vintage-green)] bg-[rgb(82_242_92/0.08)] px-5 py-3 font-console text-sm font-semibold text-[var(--color-vintage-green)] shadow-[0_0_24px_rgb(82_242_92/0.2)] transition hover:bg-[rgb(82_242_92/0.14)] hover:shadow-[0_0_32px_rgb(82_242_92/0.28)]"
                 whileHover={reduce ? undefined : { scale: 1.02 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
               >
@@ -220,7 +321,7 @@ export function Hero() {
               </motion.a>
               <motion.a
                 href="#contacto"
-                className="inline-flex items-center justify-center rounded-lg border border-[var(--color-vintage-cyan)] bg-[rgb(60_252_236/0.06)] px-5 py-3 font-console text-sm font-medium text-[var(--color-vintage-cyan)] transition hover:bg-[rgb(60_252_236/0.11)]"
+                className="kinetic-link inline-flex min-h-12 items-center justify-center rounded-lg border border-[var(--color-vintage-cyan)] bg-[rgb(60_252_236/0.06)] px-5 py-3 font-console text-sm font-medium text-[var(--color-vintage-cyan)] transition hover:bg-[rgb(60_252_236/0.11)]"
                 whileHover={reduce ? undefined : { scale: 1.02 }}
                 whileTap={reduce ? undefined : { scale: 0.98 }}
               >
@@ -237,40 +338,75 @@ export function Hero() {
               duration: reduce ? 0 : 0.5,
               ease,
             }}
-            className="mx-auto w-full max-w-[260px] md:mx-0 md:mt-21 md:w-[260px]"
+            className="mx-auto w-full max-w-[390px] md:sticky md:top-16 md:mx-0 md:w-full"
           >
-            <div className="relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-black/30 p-3 shadow-[0_0_40px_rgb(60_252_236/0.08),inset_0_1px_0_rgb(255_255_255/0.06)]">
-              <div
-                className="pointer-events-none absolute -inset-24 opacity-60 blur-2xl"
-                aria-hidden
-                style={{
-                  background:
-                    "radial-gradient(circle at 30% 30%, rgb(60 252 236 / 0.18), transparent 55%), radial-gradient(circle at 70% 20%, rgb(82 242 92 / 0.16), transparent 50%), radial-gradient(circle at 40% 80%, rgb(232 120 255 / 0.14), transparent 55%)",
-                }}
-              />
+            <motion.div
+              className="relative overflow-hidden rounded-[1.75rem] border border-[rgb(60_252_236/0.22)] bg-[#030706] p-3 shadow-[0_32px_90px_rgb(0_0_0/0.48)]"
+              style={
+                reduce
+                  ? undefined
+                  : {
+                      x: photoMoveX,
+                      y: photoMoveY,
+                      rotateX: photoRotateX,
+                      rotateY: photoRotateY,
+                      transformPerspective: 1100,
+                    }
+              }
+            >
               <img
                 src="/raul-ortiz.png"
                 alt="Raul Ortiz"
-                className="relative block h-[320px] w-full rounded-xl border border-[rgb(60_252_236/0.22)] object-cover object-[50%_20%]"
+                className="relative block h-[430px] w-full rounded-[1.35rem] border border-[rgb(60_252_236/0.24)] object-cover object-[50%_18%] saturate-[1.12] contrast-[1.04] max-sm:h-[360px]"
                 loading="eager"
                 decoding="async"
               />
-              <div className="relative mt-3 flex items-center justify-between gap-3 font-console text-[10px] uppercase tracking-[0.28em] text-[var(--color-muted)]">
-                <span>
-                  <span className="text-[var(--color-vintage-green)]">+</span>{" "}
-                  Raul Ortiz
-                </span>
-                <span className="text-[var(--color-vintage-cyan)]">Developer</span>
+            </motion.div>
+
+            <motion.div
+              initial={reduce ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: reduce ? 0 : 0.34, duration: 0.45, ease }}
+              className="mt-4 overflow-hidden rounded-2xl border border-[rgb(60_252_236/0.22)] bg-[linear-gradient(90deg,rgb(82_242_92/0.12),rgb(60_252_236/0.08),rgb(232_120_255/0.1))] p-[1px] shadow-[0_18px_50px_rgb(0_0_0/0.28)]"
+            >
+              <div className="relative rounded-[calc(1rem-1px)] bg-black/45 py-3 font-console backdrop-blur-xl">
+                <motion.div
+                  className="flex w-max items-center gap-8 whitespace-nowrap px-4"
+                  animate={reduce ? undefined : { x: ["0%", "-50%"] }}
+                  transition={{
+                    duration: 13,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  {[...Array(2)].map((_, group) => (
+                    <span
+                      key={group}
+                      className="flex items-center gap-8 text-sm font-semibold uppercase tracking-[0.24em] text-white"
+                    >
+                      {[...Array(4)].map((__, item) => (
+                        <span key={`${group}-${item}`} className="flex items-center gap-3">
+                          Raul Ortiz
+                          <span className="text-[var(--color-vintage-cyan)]">
+                            Developer
+                          </span>
+                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-vintage-green)] shadow-[0_0_14px_rgb(82_242_92/0.85)]" />
+                        </span>
+                      ))}
+                    </span>
+                  ))}
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
+
           </motion.aside>
 
           <motion.div
             variants={fadeUp}
-            className="col-span-full mx-auto mt-16 w-full max-w-5xl space-y-8 border-t border-[var(--color-border)] pt-10"
+            className="col-span-full mx-auto mt-10 w-full max-w-6xl space-y-8 border-t border-[var(--color-border)] pt-8"
           >
             <motion.div
-              className="relative overflow-hidden rounded-xl border border-[rgb(232_120_255/0.35)] bg-gradient-to-r from-[rgb(232_120_255/0.12)] via-[rgb(60_252_236/0.08)] to-[rgb(82_242_92/0.1)] px-5 py-4 shadow-[0_0_40px_rgb(232_120_255/0.12),inset_0_1px_0_rgb(255_255_255/0.08)] sm:px-6 sm:py-5"
+              className="framer-panel relative overflow-hidden rounded-xl px-5 py-4 shadow-[0_0_48px_rgb(232_120_255/0.12),inset_0_1px_0_rgb(255_255_255/0.08)] sm:px-6 sm:py-5"
               animate={
                 reduce
                   ? undefined
@@ -324,7 +460,7 @@ export function Hero() {
               </p>
             </motion.div>
 
-            <div className="grid gap-6 sm:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-3">
               {ui.hero.metrics.map((row, idx) => (
                 <motion.div
                   key={row.k}
@@ -335,6 +471,7 @@ export function Hero() {
                     duration: reduce ? 0 : 0.45,
                     ease,
                   }}
+                  className="rounded-2xl border border-[var(--color-border)] bg-black/20 p-5 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] backdrop-blur-md"
                 >
                   <p
                     className="font-console text-[11px] uppercase tracking-wider"

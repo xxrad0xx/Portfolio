@@ -57,7 +57,7 @@ export function Contact() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={viewport}
         transition={{ duration: 0.55, ease: cardEase }}
-        className="relative overflow-hidden rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-8 shadow-[0_0_0_1px_rgb(255_255_255/0.04)_inset,0_24px_80px_rgb(0_0_0/0.35)] sm:p-12 lg:p-14"
+        className="framer-panel relative overflow-hidden rounded-3xl p-8 shadow-[0_0_0_1px_rgb(255_255_255/0.04)_inset,0_24px_90px_rgb(0_0_0/0.42),0_0_70px_rgb(60_252_236/0.08)] sm:p-12 lg:p-14"
       >
         <div
           className="pointer-events-none absolute -right-24 -top-24 size-[22rem] rounded-full bg-[rgb(60_252_236/0.09)] blur-3xl"

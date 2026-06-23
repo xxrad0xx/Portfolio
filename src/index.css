@@ -58,3 +58,170 @@ body,
 #root {
   min-height: 100%;
 }
+
+@keyframes portfolio-grid-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(48px, 48px, 0);
+  }
+}
+
+@keyframes portfolio-sheen {
+  from {
+    background-position: 180% 0;
+  }
+  to {
+    background-position: -80% 0;
+  }
+}
+
+@keyframes portfolio-border-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.framer-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.framer-panel::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgb(60 252 236 / 0.32), transparent 28%),
+    linear-gradient(315deg, rgb(82 242 92 / 0.24), transparent 32%),
+    linear-gradient(225deg, rgb(232 120 255 / 0.18), transparent 36%);
+  opacity: 0.58;
+  transition: opacity 420ms ease;
+}
+
+.framer-panel::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgb(12 18 16 / 0.86), rgb(4 8 7 / 0.94)),
+    var(--color-surface-elevated);
+}
+
+.framer-panel:hover::before {
+  opacity: 0.95;
+}
+
+.kinetic-link {
+  background-image: linear-gradient(
+    100deg,
+    currentColor 0%,
+    currentColor 36%,
+    white 48%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.group:hover .kinetic-link,
+.kinetic-link:hover {
+  animation: portfolio-sheen 1.15s ease both;
+}
+
+@media (pointer: fine) {
+  html,
+  body,
+  a,
+  button,
+  [role="button"] {
+    cursor: none;
+  }
+}
+
+.custom-cursor {
+  display: none;
+}
+
+@media (pointer: fine) {
+  .custom-cursor {
+    pointer-events: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    display: block;
+    height: 30px;
+    width: 30px;
+    margin-left: -15px;
+    margin-top: -15px;
+    mix-blend-mode: screen;
+  }
+
+  .custom-cursor__ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgb(60 252 236 / 0.78);
+    transform: rotate(45deg);
+    box-shadow:
+      0 0 14px rgb(60 252 236 / 0.22),
+      inset 0 0 12px rgb(82 242 92 / 0.1);
+  }
+
+  .custom-cursor__dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 4px;
+    width: 4px;
+    border-radius: 999px;
+    background: var(--color-vintage-green);
+    box-shadow: 0 0 14px rgb(82 242 92 / 0.85);
+    transform: translate(-50%, -50%);
+  }
+
+  .custom-cursor__h,
+  .custom-cursor__v {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: rgb(255 192 56 / 0.82);
+    box-shadow: 0 0 10px rgb(255 192 56 / 0.24);
+    transform: translate(-50%, -50%);
+  }
+
+  .custom-cursor__h {
+    height: 1px;
+    width: 18px;
+  }
+
+  .custom-cursor__v {
+    height: 18px;
+    width: 1px;
+  }
+}
+
+.project-showcase {
+  grid-column: span 1;
+}
+
+@media (min-width: 1024px) {
+  .project-showcase:first-child {
+    grid-column: span 2;
+  }
+
+  .project-showcase:first-child .project-shot {
+    aspect-ratio: 18 / 9;
+  }
+
+  .project-showcase:first-child .project-title {
+    font-size: clamp(1.6rem, 2vw, 2.4rem);
+  }
+}

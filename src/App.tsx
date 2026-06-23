@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Background } from "@/components/layout/Background";
 import { BootIntro } from "@/components/layout/BootIntro";
+import { CustomCursor } from "@/components/layout/CustomCursor";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { About } from "@/components/sections/About";
@@ -44,23 +45,26 @@ export default function App() {
   const [landingVisible, setLandingVisible] = useState(false);
 
   return (
-    <AnimatePresence mode="wait">
-      {!landingVisible ? (
-        <BootIntro
-          key="boot-intro"
-          onComplete={() => setLandingVisible(true)}
-        />
-      ) : (
-        <motion.div
-          key="landing"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="min-h-screen"
-        >
-          <Landing />
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <>
+      <CustomCursor />
+      <AnimatePresence mode="wait">
+        {!landingVisible ? (
+          <BootIntro
+            key="boot-intro"
+            onComplete={() => setLandingVisible(true)}
+          />
+        ) : (
+          <motion.div
+            key="landing"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="min-h-screen"
+          >
+            <Landing />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

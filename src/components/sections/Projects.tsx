@@ -35,14 +35,22 @@ export function Projects() {
             "image" in p && typeof p.image === "string" ? p.image : undefined;
           const CardInner = (
             <>
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/10 via-transparent to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-accent)]/12 via-transparent to-[var(--color-vintage-magenta)]/10 opacity-0 transition duration-500 group-hover:opacity-100" />
+              <div
+                className="pointer-events-none absolute -inset-1 opacity-0 blur-xl transition duration-700 group-hover:opacity-60"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgb(60 252 236 / 0.16), transparent 32%, rgb(82 242 92 / 0.12), transparent 68%, rgb(232 120 255 / 0.12))",
+                }}
+                aria-hidden
+              />
               <div className="relative flex flex-1 flex-col">
-                <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[#070a09] ring-1 ring-white/10 transition duration-500 group-hover:ring-[rgb(82_242_92/0.35)]">
+                <div className="project-shot relative aspect-[16/10] overflow-hidden rounded-xl bg-[#070a09] ring-1 ring-white/10 transition duration-500 group-hover:ring-[rgb(82_242_92/0.35)]">
                   {imageSrc ? (
                     <img
                       src={publicUrl(imageSrc)}
                       alt={`Vista previa: ${p.title}`}
-                      className="absolute inset-0 h-full w-full object-contain object-center p-3 sm:p-4"
+                      className="absolute inset-0 h-full w-full object-contain object-center p-3 transition duration-700 group-hover:scale-[1.045] sm:p-4"
                       loading="lazy"
                       decoding="async"
                     />
@@ -57,11 +65,15 @@ export function Projects() {
                       background:
                         "linear-gradient(120deg, transparent 30%, rgb(60 252 236 / 0.08) 50%, transparent 70%)",
                       backgroundSize: "200% 100%",
+                      animation: "portfolio-sheen 1.2s ease both",
                     }}
                     aria-hidden
                   />
+                  <div className="absolute left-3 top-3 rounded-md border border-white/10 bg-black/45 px-2 py-1 font-console text-[10px] uppercase tracking-[0.22em] text-white/75 backdrop-blur-md">
+                    0{i + 1}
+                  </div>
                 </div>
-                <h3 className="mt-5 text-lg font-semibold text-white transition group-hover:text-[var(--color-vintage-cyan)]">
+                <h3 className="project-title mt-5 text-lg font-semibold text-white transition group-hover:text-[var(--color-vintage-cyan)]">
                   {p.title}
                 </h3>
                 <p className="mt-1 font-mono text-[11px] uppercase tracking-wide text-[var(--color-vintage-cyan)]">
@@ -98,7 +110,7 @@ export function Projects() {
           );
 
           const cardClass =
-            "group relative flex flex-col overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-6 transition duration-500 hover:border-white/20 hover:shadow-[0_20px_48px_rgb(0_0_0/0.35)]";
+            "project-showcase framer-panel group relative flex flex-col overflow-hidden rounded-2xl p-6 transition duration-500 hover:shadow-[0_24px_70px_rgb(0_0_0/0.45),0_0_46px_rgb(60_252_236/0.08)]";
 
           if (demoUrl) {
             return (

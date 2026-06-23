@@ -42,7 +42,7 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={viewport}
             transition={{ duration: 0.5, delay: reduce ? 0 : 0.1 }}
-            className="group relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)] p-6 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] sm:p-8"
+            className="framer-panel group relative overflow-hidden rounded-2xl p-6 shadow-[0_18px_60px_rgb(0_0_0/0.24),inset_0_1px_0_rgb(255_255_255/0.05)] sm:p-8"
           >
             <div
               className="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full bg-[var(--color-vintage-green)]/10 blur-2xl transition duration-700 group-hover:bg-[var(--color-vintage-green)]/18"
@@ -75,7 +75,7 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={viewport}
             transition={{ duration: 0.5, delay: reduce ? 0 : 0.18 }}
-            className="group relative overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)]/90 p-6 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] sm:p-8"
+            className="framer-panel group relative overflow-hidden rounded-2xl p-6 shadow-[0_18px_60px_rgb(0_0_0/0.22),inset_0_1px_0_rgb(255_255_255/0.05)] sm:p-8"
           >
             <div
               className="pointer-events-none absolute -left-6 top-1/2 size-28 -translate-y-1/2 rounded-full bg-[var(--color-vintage-magenta)]/12 blur-2xl transition duration-700 group-hover:bg-[var(--color-vintage-magenta)]/20"

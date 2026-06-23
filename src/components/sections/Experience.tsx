@@ -63,7 +63,7 @@ export function Experience() {
                   }`}
                 >
                   <div
-                    className={`group/card relative inline-block w-full max-w-xl overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-elevated)]/90 p-5 shadow-[inset_0_1px_0_rgb(255_255_255/0.05)] transition hover:border-white/15 hover:shadow-[0_0_40px_rgb(60_252_236/0.08),inset_0_1px_0_rgb(255_255_255/0.07)] sm:p-6 ${
+                    className={`framer-panel group/card relative inline-block w-full max-w-xl overflow-hidden rounded-2xl p-5 shadow-[0_16px_54px_rgb(0_0_0/0.25),inset_0_1px_0_rgb(255_255_255/0.05)] transition hover:shadow-[0_0_46px_rgb(60_252_236/0.1),0_20px_64px_rgb(0_0_0/0.36),inset_0_1px_0_rgb(255_255_255/0.07)] sm:p-6 ${
                       isLeft ? "sm:ml-auto" : ""
                     }`}
                   >
